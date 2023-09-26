@@ -33,3 +33,7 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
+
+## Docs
+
+[Nest](https://docs.nestjs.com/) - Documentation for Nest framework.
