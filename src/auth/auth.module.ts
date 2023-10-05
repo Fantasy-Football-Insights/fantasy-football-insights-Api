@@ -18,6 +18,7 @@ import { APP_GUARD } from "@nestjs/core";
         secret: configService.get<string>("JWT_SECRET"),
         signOptions: { expiresIn: "60s" },
       }),
+      inject: [ConfigService],
     }),
   ],
   controllers: [AuthController],
