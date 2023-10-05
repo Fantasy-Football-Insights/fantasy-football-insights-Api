@@ -8,8 +8,10 @@ import {
   ParseIntPipe,
 } from "@nestjs/common";
 import { CreateUserSchema } from "./schemas/create-user.schema";
+import { UserInDbSchema } from "./schemas/user-in-db.schema";
 import { User } from "./user.entity";
 import { UsersService } from "./users.service";
+import { Public } from "src/auth/decorators/public.decorator";
 
 @Controller("users")
 export class UsersController {
@@ -20,14 +22,15 @@ export class UsersController {
     return this.usersService.create(CreateUserSchema);
   }
 
+  @Public()
   @Get()
   findAll(): Promise<User[]> {
     return this.usersService.findAll();
   }
 
-  @Get(":id")
-  findOne(@Param("id", ParseIntPipe) id: number): Promise<User> {
-    return this.usersService.findOne(id);
+  @Get()
+  findOne(@Body() findOneDto: UserInDbSchema): Promise<User> {
+    return this.usersService.findOne(findOneDto.email);
   }
 
   @Delete(":id")
