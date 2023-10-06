@@ -10,7 +10,6 @@ async function bootstrap() {
     .setTitle("Fantasy Football Insights API")
     .setDescription("The Fantasy Football Insights API")
     .setVersion("1.0")
-    .addTag("Fantasy Football Insights")
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup("api", app, document);
