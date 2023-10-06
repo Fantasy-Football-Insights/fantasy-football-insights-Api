@@ -5,7 +5,6 @@ import {
   HttpCode,
   HttpStatus,
   Request,
-  UseGuards,
   Get,
 } from "@nestjs/common";
 import {
@@ -15,8 +14,8 @@ import {
   ApiTags,
 } from "@nestjs/swagger";
 import { UserSignInSchema } from "./schemas/auth.schemas";
-import { AuthGuard } from "./auth.guard";
 import { AuthService } from "./auth.service";
+import { Public } from "./decorators/public.decorator";
 
 @ApiBearerAuth()
 @ApiTags("auth")
@@ -24,7 +23,7 @@ import { AuthService } from "./auth.service";
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @HttpCode(HttpStatus.OK)
+  @Public()
   @Post("login")
   @ApiOperation({ summary: "Login" })
   @ApiResponse({
@@ -32,10 +31,9 @@ export class AuthController {
     description: "Login successful",
   })
   signIn(@Body() signInDto: UserSignInSchema) {
-    return this.authService.signIn(signInDto.email, signInDto.password);
+    return this.authService.signIn(signInDto.email);
   }
 
-  @UseGuards(AuthGuard)
   @Get("profile")
   @ApiOperation({ summary: "Get profile" })
   getProfile(@Request() req) {

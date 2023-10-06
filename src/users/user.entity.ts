@@ -7,18 +7,18 @@ export class User {
   id: number;
 
   @ApiProperty({ example: "user@example.com", description: "Email" })
-  @Column()
+  @Column({ nullable: false })
   email: string;
 
   @ApiProperty({ example: "John", description: "First name" })
-  @Column()
+  @Column({ nullable: false })
   firstName: string;
 
   @ApiProperty({ example: "Doe", description: "Last name" })
-  @Column()
+  @Column({ nullable: false })
   lastName: string;
 
   @ApiProperty({ example: "password", description: "Password" })
-  @Column()
+  @Column({ nullable: false })
   password: string;
 }

@@ -25,6 +25,7 @@ import {
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @Public()
   @Post()
   @ApiOperation({ summary: "Register User" })
   @ApiResponse({
@@ -35,7 +36,6 @@ export class UsersController {
     return this.usersService.create(CreateUserSchema);
   }
 
-  @Public()
   @Get("all")
   @ApiOperation({ summary: "Get all users" })
   @ApiResponse({

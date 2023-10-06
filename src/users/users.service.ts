@@ -13,8 +13,10 @@ export class UsersService {
 
   create(CreateUserSchema: CreateUserSchema): Promise<User> {
     const user = new User();
+    user.email = CreateUserSchema.email;
     user.firstName = CreateUserSchema.firstName;
     user.lastName = CreateUserSchema.lastName;
+    user.password = CreateUserSchema.password;
 
     return this.usersRepository.save(user);
   }

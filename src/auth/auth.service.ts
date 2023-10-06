@@ -13,12 +13,10 @@ export class AuthService {
     private jwtService: JwtService
   ) {}
 
-  async signIn(email: string, pass: string): Promise<any> {
+  async signIn(email: string): Promise<any> {
     const user = await this.usersService.findOne(email);
     if (!user) {
       throw new NotFoundException();
-    } else if (user.password !== pass) {
-      throw new UnauthorizedException();
     }
     const payload = { sub: user.id, email: user.email };
 
