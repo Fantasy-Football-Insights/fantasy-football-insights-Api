@@ -13,14 +13,14 @@ import {
   ApiResponse,
   ApiTags,
 } from "@nestjs/swagger";
-import { UserSignInSchema } from "../../schemas/user/user-signin.schema";
+import { UserSignInSchema } from "../../schemas/users/user-signin.schema";
 import { AuthService } from "./auth.service";
 import { Public } from "../../decorators/public.decorator";
-import { User } from "src/entities/user.entity";
-import { CreateUserSchema } from "src/schemas/user/create-user.schema";
+import { User } from "src/entities/users/user.entity";
+import { CreateUserSchema } from "src/schemas/users/create-user.schema";
 
 @ApiBearerAuth()
-@ApiTags("auth")
+@ApiTags("Authentication")
 @Controller("auth")
 export class AuthController {
   constructor(private authService: AuthService) {}
@@ -48,11 +48,5 @@ export class AuthController {
   })
   signIn(@Body() signInDto: UserSignInSchema) {
     return this.authService.signIn(signInDto.email, signInDto.password);
-  }
-
-  @Get("profile")
-  @ApiOperation({ summary: "Get profile" })
-  getProfile(@Request() req) {
-    return req.user;
   }
 }

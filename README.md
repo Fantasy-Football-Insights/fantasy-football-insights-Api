@@ -57,4 +57,5 @@ $ npm run test:cov
 
 ## Docs
 
-[Nest](https://docs.nestjs.com/) - Documentation for Nest framework.
+- [Nest](https://docs.nestjs.com/) - Documentation for Nest framework.
+- [MySQL](https://www.mysql.com/products/community/) - Documentation for MySQL Community Server.

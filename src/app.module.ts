@@ -6,7 +6,7 @@ import { AuthModule } from "./api/auth/auth.module";
 import { UsersModule } from "./api/users/users.module";
 
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { User } from "./entities/user.entity";
+import { User } from "./entities/users/user.entity";
 
 import configuration from "config/configuration";
 

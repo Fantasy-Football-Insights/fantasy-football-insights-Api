@@ -1,15 +1,7 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  ParseIntPipe,
-} from "@nestjs/common";
-import { CreateUserSchema } from "../../schemas/user/create-user.schema";
-import { UserInDbSchema } from "../../schemas/user/user-in-db.schema";
-import { User } from "../../entities/user.entity";
+import { Body, Controller, Delete, Get, Param, Request } from "@nestjs/common";
+import { CreateUserSchema } from "../../schemas/users/create-user.schema";
+import { UserInDbSchema } from "../../schemas/users/user-in-db.schema";
+import { User } from "../../entities/users/user.entity";
 import { UsersService } from "./users.service";
 import { Public } from "src/decorators/public.decorator";
 import {
@@ -20,7 +12,7 @@ import {
 } from "@nestjs/swagger";
 
 @ApiBearerAuth()
-@ApiTags("users")
+@ApiTags("Users")
 @Controller("users")
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -43,6 +35,12 @@ export class UsersController {
   })
   findOne(@Body() findOneDto: UserInDbSchema): Promise<User> {
     return this.usersService.findOne(findOneDto.email);
+  }
+
+  @Get("profile")
+  @ApiOperation({ summary: "Get profile" })
+  getProfile(@Request() req) {
+    return req.user;
   }
 
   @Delete(":id")

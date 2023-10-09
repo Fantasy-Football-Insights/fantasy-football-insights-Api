@@ -12,12 +12,12 @@ async function bootstrap() {
     .setVersion("1.0")
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup("api", app, document);
+  SwaggerModule.setup("docs", app, document);
 
   const configService = app.get(ConfigService);
   const PORT = configService.get<number>("PORT");
 
   await app.listen(PORT);
-  console.log(`Application is running on: ${await app.getUrl()}`);
+  console.log(`Application is running on: ${await app.getUrl()}/docs`);
 }
 bootstrap();
