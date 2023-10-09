@@ -11,7 +11,7 @@ $ npm install
 ## Development Database
 
 Database connection is setup to use environment variables in a `.env` file.
-The Database connection is setup to use `mysql` with `typeorm` and `mysql2` packages.
+The Database connection is setup to use `MySQL` with `typeorm` packages.
 A `.env.example` is provided that uses database and initial data variables for the following setup:
 Development database creation using `ffi` with user `ffi` at `localhost:3306`:
 
