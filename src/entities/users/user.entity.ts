@@ -1,6 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
 import { ApiProperty } from "@nestjs/swagger";
 
+// This defines how a user should be stored in the database
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()

@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 
+// Schema that is used to create a user
 export class CreateUserSchema {
   @ApiProperty({ example: "user@example.com", description: "Email" })
   email: string;

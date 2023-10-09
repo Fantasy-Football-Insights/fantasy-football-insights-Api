@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 
+// schema that is used when a user is pulled from the database
 export class UserInDbSchema {
   @ApiProperty({ example: 1, description: "User id" })
   id: number;

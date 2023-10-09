@@ -12,10 +12,13 @@ import configuration from "config/configuration";
 
 @Module({
   imports: [
+    // Load env variables from configuration file
     ConfigModule.forRoot({
       load: [configuration],
       isGlobal: true,
     }),
+
+    // Connect to database
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
@@ -25,6 +28,8 @@ import configuration from "config/configuration";
       }),
       inject: [ConfigService],
     }),
+
+    // Import modules
     AuthModule,
     UsersModule,
   ],
