@@ -9,9 +9,10 @@ import {
   ApiOperation,
   ApiResponse,
   ApiTags,
+  ApiOAuth2,
 } from "@nestjs/swagger";
 
-@ApiBearerAuth()
+@ApiOAuth2([], "Authentication")
 @ApiTags("Users")
 @Controller("users")
 export class UsersController {

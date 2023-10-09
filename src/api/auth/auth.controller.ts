@@ -19,14 +19,13 @@ import { Public } from "../../decorators/public.decorator";
 import { User } from "src/entities/users/user.entity";
 import { CreateUserSchema } from "src/schemas/users/create-user.schema";
 
-@ApiBearerAuth()
 @ApiTags("Authentication")
-@Controller("auth")
+@Controller()
 export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Public()
-  @Post()
+  @Post("register")
   @ApiOperation({ summary: "Register User" })
   @ApiResponse({
     status: 200,
