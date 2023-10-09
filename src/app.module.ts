@@ -2,11 +2,11 @@ import { Module } from "@nestjs/common";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { ConfigModule, ConfigService } from "@nestjs/config";
-import { AuthModule } from "./auth/auth.module";
-import { UsersModule } from "./users/users.module";
+import { AuthModule } from "./api/auth/auth.module";
+import { UsersModule } from "./api/users/users.module";
 
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { User } from "./users/user.entity";
+import { User } from "./entities/user.entity";
 
 import configuration from "config/configuration";
 

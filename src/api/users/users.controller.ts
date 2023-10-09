@@ -7,11 +7,11 @@ import {
   Post,
   ParseIntPipe,
 } from "@nestjs/common";
-import { CreateUserSchema } from "./schemas/create-user.schema";
-import { UserInDbSchema } from "./schemas/user-in-db.schema";
-import { User } from "./user.entity";
+import { CreateUserSchema } from "../../schemas/user/create-user.schema";
+import { UserInDbSchema } from "../../schemas/user/user-in-db.schema";
+import { User } from "../../entities/user.entity";
 import { UsersService } from "./users.service";
-import { Public } from "src/auth/decorators/public.decorator";
+import { Public } from "src/decorators/public.decorator";
 import {
   ApiBearerAuth,
   ApiOperation,

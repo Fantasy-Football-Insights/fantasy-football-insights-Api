@@ -1,5 +1,5 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { CreateUserSchema } from "./schemas/create-user.schema";
+import { CreateUserSchema } from "../../schemas/user/create-user.schema";
 import { UsersController } from "./users.controller";
 import { UsersService } from "./users.service";
 

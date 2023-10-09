@@ -13,11 +13,11 @@ import {
   ApiResponse,
   ApiTags,
 } from "@nestjs/swagger";
-import { UserSignInSchema } from "./schemas/auth.schemas";
+import { UserSignInSchema } from "../../schemas/user/user-signin.schema";
 import { AuthService } from "./auth.service";
-import { Public } from "./decorators/public.decorator";
-import { User } from "src/users/user.entity";
-import { CreateUserSchema } from "src/users/schemas/create-user.schema";
+import { Public } from "../../decorators/public.decorator";
+import { User } from "src/entities/user.entity";
+import { CreateUserSchema } from "src/schemas/user/create-user.schema";
 
 @ApiBearerAuth()
 @ApiTags("auth")
