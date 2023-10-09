@@ -8,6 +8,27 @@ Nest framework TypeScript Fantasy Football Insights repository.
 $ npm install
 ```
 
+## Development Database
+
+Database connection is setup to use environment variables in a `.env` file.
+The Database connection is setup to use `MySQL` with `typeorm` packages.
+A `.env.example` is provided that uses database and initial data variables for the following setup:
+Development database creation using `ffi` with user `ffi` at `localhost:3306`:
+
+> **Note:** Please make sure you have installed mysql and have configured your environment to use it.
+
+```sql
+CREATE DATABASE ffi;
+```
+
+```sql
+CREATE USER 'ffi'@'localhost' IDENTIFIED BY 'ffi';
+```
+
+```sql
+GRANT ALL PRIVILEGES ON *.* TO 'ffi'@'localhost' WITH GRANT OPTION;
+```
+
 ## Running the app
 
 ```bash
@@ -36,4 +57,5 @@ $ npm run test:cov
 
 ## Docs
 
-[Nest](https://docs.nestjs.com/) - Documentation for Nest framework.
+- [Nest](https://docs.nestjs.com/) - Documentation for Nest framework.
+- [MySQL](https://www.mysql.com/products/community/) - Documentation for MySQL Community Server.
