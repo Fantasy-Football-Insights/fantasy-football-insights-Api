@@ -10,6 +10,6 @@ export class CreateUserSchema {
   @ApiProperty({ example: "Doe", description: "Last name" })
   lastName: string;
 
-  @ApiProperty({ example: "Password", description: "Password" })
+  @ApiProperty({ example: "string", description: "Password" })
   password: string;
 }

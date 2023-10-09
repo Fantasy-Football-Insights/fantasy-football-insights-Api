@@ -25,17 +25,6 @@ import {
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Public()
-  @Post()
-  @ApiOperation({ summary: "Register User" })
-  @ApiResponse({
-    status: 200,
-    description: "Login successful",
-  })
-  create(@Body() CreateUserSchema: CreateUserSchema): Promise<User> {
-    return this.usersService.create(CreateUserSchema);
-  }
-
   @Get("all")
   @ApiOperation({ summary: "Get all users" })
   @ApiResponse({

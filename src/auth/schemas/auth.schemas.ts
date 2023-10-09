@@ -6,7 +6,7 @@ export class UserSignInSchema {
   @IsEmail()
   readonly email: string;
 
-  @ApiProperty({ example: "password", description: "password" })
+  @ApiProperty({ example: "string", description: "password" })
   @IsString()
   readonly password: string;
 }
