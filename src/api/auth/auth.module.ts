@@ -19,7 +19,7 @@ import { User } from "src/entities/users/user.entity";
       useFactory: async (configService: ConfigService) => ({
         global: true,
         secret: configService.get<string>("JWT_SECRET"),
-        signOptions: { expiresIn: "60s" },
+        signOptions: { expiresIn: "2 days" },
       }),
       inject: [ConfigService],
     }),
