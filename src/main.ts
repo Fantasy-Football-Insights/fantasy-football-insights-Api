@@ -17,7 +17,7 @@ async function bootstrap() {
         type: "oauth2",
         flows: {
           password: {
-            tokenUrl: "/api/v1/login",
+            tokenUrl: "/api/v1/oauth2/login",
             scopes: {},
           },
         },

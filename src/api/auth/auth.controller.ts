@@ -22,6 +22,7 @@ import {
   CreateUserSchema,
   UserInDbSchema,
   UserSignInSchema,
+  Oauth2SignInSchema,
 } from "src/schemas/users/users.schemas";
 
 @ApiTags("Authentication")
@@ -61,5 +62,21 @@ export class AuthController {
   })
   signIn(@Body() signInDto: UserSignInSchema) {
     return this.authService.signIn(signInDto.email, signInDto.password);
+  }
+
+  @Public()
+  @Post("oauth2/login")
+  @ApiOperation({ summary: "Login to docs" })
+  @ApiResponse({
+    status: 200,
+    description: "Login successful",
+    type: LogInResponse,
+  })
+  @ApiResponse({
+    status: 404,
+    description: "User not found",
+  })
+  signInDocs(@Body() signInDto: Oauth2SignInSchema) {
+    return this.authService.signIn(signInDto.username, signInDto.password);
   }
 }

@@ -27,6 +27,17 @@ export class UserSignInSchema {
   readonly password: string;
 }
 
+// schema that is used when a user signs into the docs
+export class Oauth2SignInSchema {
+  @ApiProperty({ example: "user@example.com", description: "Email" })
+  @IsEmail()
+  readonly username: string;
+
+  @ApiProperty({ example: "string", description: "password" })
+  @IsString()
+  readonly password: string;
+}
+
 // schema that is used when a user is pulled from the database
 export class UserInDbSchema {
   @ApiProperty({ example: 1, description: "User id" })
