@@ -9,7 +9,7 @@ import { UsersService } from "src/api/users/users.service";
 import { JwtService } from "@nestjs/jwt";
 import { comparePassword } from "src/core/security";
 import { User } from "src/entities/users/user.entity";
-import { CreateUserSchema } from "src/schemas/users/create-user.schema";
+import { CreateUserSchema } from "src/schemas/users/users.schemas";
 import { hashPassword } from "src/core/security";
 
 @Injectable()

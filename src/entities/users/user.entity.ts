@@ -20,6 +20,6 @@ export class User {
   lastName: string;
 
   @ApiProperty({ example: "string", description: "Password" })
-  @Column({ nullable: false })
+  @Column({ nullable: false, select: false })
   password: string;
 }
