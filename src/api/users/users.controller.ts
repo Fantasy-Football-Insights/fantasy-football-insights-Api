@@ -34,8 +34,12 @@ export class UsersController {
     status: 200,
     description: "Login successful",
   })
-  findOne(@Body() findOneDto: UserInDbSchema): Promise<User> {
-    return this.usersService.findOne(findOneDto.email);
+  @ApiResponse({
+    status: 401,
+    description: "Unauthorized",
+  })
+  findOne(@Param("id") id: number): Promise<User> {
+    return this.usersService.findById(id);
   }
 
   @Get("profile")
