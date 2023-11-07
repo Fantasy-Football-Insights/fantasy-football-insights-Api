@@ -1,23 +1,15 @@
-import {
-  Controller,
-  Body,
-  Post,
-  HttpStatus,
-  Request,
-  Get,
-  BadRequestException,
-} from "@nestjs/common";
-import {
-  ApiBearerAuth,
-  ApiOperation,
-  ApiResponse,
-  ApiTags,
-} from "@nestjs/swagger";
-import { UserSignInSchema } from "../../schemas/users/user-signin.schema";
-import { AuthService } from "./auth.service";
-import { Public } from "../../decorators/public.decorator";
+import { BadRequestException, Body, Controller, Post } from "@nestjs/common";
+import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { User } from "src/entities/users/user.entity";
-import { CreateUserSchema } from "src/schemas/users/create-user.schema";
+import { LogInResponse } from "src/schemas/auth/auth.schemas";
+import {
+  CreateUserSchema,
+  Oauth2SignInSchema,
+  UserProfileSchema,
+  UserSignInSchema,
+} from "src/schemas/users/users.schemas";
+import { Public } from "../../decorators/public.decorator";
+import { AuthService } from "./auth.service";
 
 @ApiTags("Authentication")
 @Controller()
@@ -29,9 +21,14 @@ export class AuthController {
   @ApiOperation({ summary: "Register User" })
   @ApiResponse({
     status: 200,
-    description: "Login successful",
+    type: UserProfileSchema,
+  })
+  @ApiResponse({
+    status: 400,
+    description: "User already exists",
   })
   async register(@Body() CreateUserSchema: CreateUserSchema): Promise<User> {
+    console.log(CreateUserSchema);
     if (await this.authService.doesUserExist(CreateUserSchema.email)) {
       throw new BadRequestException("User already exists");
     }
@@ -42,10 +39,31 @@ export class AuthController {
   @Post("login")
   @ApiOperation({ summary: "Login" })
   @ApiResponse({
-    status: HttpStatus.OK,
+    status: 200,
     description: "Login successful",
+    type: LogInResponse,
+  })
+  @ApiResponse({
+    status: 404,
+    description: "User not found",
   })
   signIn(@Body() signInDto: UserSignInSchema) {
     return this.authService.signIn(signInDto.email, signInDto.password);
+  }
+
+  @Public()
+  @Post("oauth2/login")
+  @ApiOperation({ summary: "Login to docs" })
+  @ApiResponse({
+    status: 200,
+    description: "Login successful",
+    type: LogInResponse,
+  })
+  @ApiResponse({
+    status: 404,
+    description: "User not found",
+  })
+  signInDocs(@Body() signInDto: Oauth2SignInSchema) {
+    return this.authService.signIn(signInDto.username, signInDto.password);
   }
 }
