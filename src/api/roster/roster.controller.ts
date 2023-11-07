@@ -36,6 +36,16 @@ export class RosterController {
         return this.rosterService.findAll()
     }
 
+    @Post()
+    @ApiOperation({ summary: "Create a roster "})
+    @ApiResponse({
+      status: 200,
+      dscription: "Created a roster successfully"
+    })
+    createRoster(): {
+
+    }
+
     // @Get()
     // @ApiOperation({ summary: "Get one roster" })
     // @ApiResponse({

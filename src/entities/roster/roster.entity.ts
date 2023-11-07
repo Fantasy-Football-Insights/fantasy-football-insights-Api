@@ -11,12 +11,12 @@ export class Roster {
     id: number;
     
     // Owner_id - this will be used to connect the roster to a user
-    @ApiProperty({ example: 3, description: "Owner Id"})
+    @ApiProperty({ example: 3, description: "Owner Id" })
     @Column({ nullable: false})
     Owner_ID: string;
     
     // players - array of player objects to hold players in the roster
-    @ApiProperty({ example: "[Player1, Player2, Player3]", description: "Players"})
-    @Column({ nullable: false})
-    Players: [];
+    @ApiProperty({ example: "[Player1, Player2, Player3]", description: "Players" })
+    @Column("json", { nullable: false })
+    Players: any[];
 }
