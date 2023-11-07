@@ -1,29 +1,15 @@
-import {
-  Controller,
-  Body,
-  Post,
-  HttpStatus,
-  Request,
-  Get,
-  BadRequestException,
-} from "@nestjs/common";
-import {
-  ApiBearerAuth,
-  ApiOperation,
-  ApiResponse,
-  ApiTags,
-} from "@nestjs/swagger";
-import { AuthService } from "./auth.service";
-import { Public } from "../../decorators/public.decorator";
+import { BadRequestException, Body, Controller, Post } from "@nestjs/common";
+import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { User } from "src/entities/users/user.entity";
 import { LogInResponse } from "src/schemas/auth/auth.schemas";
 import {
-  UserProfileSchema,
   CreateUserSchema,
-  UserInDbSchema,
-  UserSignInSchema,
   Oauth2SignInSchema,
+  UserProfileSchema,
+  UserSignInSchema,
 } from "src/schemas/users/users.schemas";
+import { Public } from "../../decorators/public.decorator";
+import { AuthService } from "./auth.service";
 
 @ApiTags("Authentication")
 @Controller()
@@ -42,6 +28,7 @@ export class AuthController {
     description: "User already exists",
   })
   async register(@Body() CreateUserSchema: CreateUserSchema): Promise<User> {
+    console.log(CreateUserSchema);
     if (await this.authService.doesUserExist(CreateUserSchema.email)) {
       throw new BadRequestException("User already exists");
     }
