@@ -15,17 +15,24 @@ export class RosterService {
   async findAll(): Promise<Roster[]> {
     return this.RostersRepository.find();
   }
-    // need to figure out how to insert into the data base
-//   async insertOne(Player: object): Promise<Players[]>{
-//     this.RostersRepository.Players.insertOne({player: Player});
-//     return;
-//   }
 
-  async findOne(Owner_ID: string): Promise<Roster> {
+  // creates a roster
+  async create(Players: any[], Owner_ID: number, draftPosition: number) {
+    // waits for the roster to be saved to database and assigns it to roster variable
+    const roster = await this.RostersRepository.save({
+      Owner_ID,
+      Players,
+      draftPosition
+    })
+    // returns the roster
+    return roster
+  }
+
+  async findOne(Owner_ID: number): Promise<Roster> {
     return this.RostersRepository.findOneBy({ Owner_ID: Owner_ID });
   }
 
-  async remove(id: string): Promise<void> {
+  async remove(id: number): Promise<void> {
     await this.RostersRepository.delete(id);
   }
 }

@@ -11,15 +11,15 @@ import {
     ApiBearerAuth,
     ApiOperation,
     ApiResponse,
-    ApiTags,
+    ApiTags, 
+    ApiOAuth2,
   } from "@nestjs/swagger";
 import { Public } from "src/decorators/public.decorator";
-  import { UserSignInSchema } from "../../schemas/users/user-signin.schema";
+  import { CreateRosterResponse, CreateRosterRequest } from "../../schemas/roster/roster.schemas";
   import { RosterService } from "./roster.service";
   import { Roster } from "src/entities/roster/roster.entity";
-  import { CreateUserSchema } from "src/schemas/users/create-user.schema";
 
-
+@ApiOAuth2([], "Authentication")
 @ApiTags('Roster')
 @Controller('Roster')
 export class RosterController {
@@ -40,10 +40,20 @@ export class RosterController {
     @ApiOperation({ summary: "Create a roster "})
     @ApiResponse({
       status: 200,
-      dscription: "Created a roster successfully"
+      description: "Created a roster successfully"
     })
-    createRoster(): {
-
+    // we need @Request() to get the user information
+    // CreateRosterRequest is used because when we create the roster, we want the user to input the draftPosition as a parameter
+    // Then we promise that what is returned is a CreateRosterResponse 
+    createRoster(@Request() req, @Body() createRosterDTo: CreateRosterRequest): Promise<CreateRosterResponse>{
+      // dummy roster of players
+      const player1 = {name: "asdf", position: "QB"}
+      const player2 = {name: "uu", position: "RB"}
+      const player3 = {name: "qwer", position: "WR"}
+      const players = [player1, player2, player3]
+      
+      // Using the create function to create a roster
+      return this.rosterService.create(players, req.user.sub, createRosterDTo.draftPosition);
     }
 
     // @Get()
