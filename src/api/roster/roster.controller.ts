@@ -6,6 +6,7 @@ import {
     Request,
     Delete,
     Get,
+    Param,
     BadRequestException,
   } from "@nestjs/common";
   import {
@@ -75,8 +76,8 @@ export class RosterController {
         description: "Success",
     })
     // not done
-    clear(@Request() req): void {
-      this.rosterService.remove(req.user.sub);
+    clear(@Param("ID") id: number): void {
+      this.rosterService.remove(id);
     }
 
 }

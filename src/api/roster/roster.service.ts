@@ -32,7 +32,7 @@ export class RosterService {
     return this.RostersRepository.findOneBy({ Owner_ID: Owner_ID });
   }
 
-  async remove(Owner_ID: number): Promise<void> {
-    await this.RostersRepository.query(`DELETE FROM roster WHERE Owner_ID = ${Owner_ID}`);
+  async remove(id: number): Promise<void> {
+    await this.RostersRepository.query(`DELETE FROM roster WHERE id = ${id}`);
   }
 }

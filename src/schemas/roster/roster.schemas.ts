@@ -20,8 +20,3 @@ export class DeleteRosterRequest {
   id: number;
 }
 
-// export class DeleteRosterResponse {
-//   @ApiProperty({ example: 1, description: "ID"})
-//   @IsNumber()
-//   id: number;
-// }
