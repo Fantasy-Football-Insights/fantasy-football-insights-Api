@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Roster } from "../../entities/roster/roster.entity";
@@ -28,11 +28,16 @@ export class RosterService {
     return roster
   }
 
-  async findOne(Owner_ID: number): Promise<Roster> {
-    return this.RostersRepository.findOneBy({ Owner_ID: Owner_ID });
+  async findOne(id: number): Promise<Roster> {
+    const roster = this.RostersRepository.query(`SELECT * FROM roster WHERE id = ${id}`);
+    if (!roster) {
+      throw new NotFoundException();
+    } 
+    return roster;
   }
 
-  async remove(id: number): Promise<void> {
+  async remove(id: number): Promise<Roster[]> {
     await this.RostersRepository.query(`DELETE FROM roster WHERE id = ${id}`);
+    return this.RostersRepository.find();
   }
 }
