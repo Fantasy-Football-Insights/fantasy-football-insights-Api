@@ -4,6 +4,7 @@ import {
     Post,
     HttpStatus,
     Request,
+    Delete,
     Get,
     BadRequestException,
   } from "@nestjs/common";
@@ -15,7 +16,7 @@ import {
     ApiOAuth2,
   } from "@nestjs/swagger";
 import { Public } from "src/decorators/public.decorator";
-  import { CreateRosterResponse, CreateRosterRequest } from "../../schemas/roster/roster.schemas";
+  import { CreateRosterResponse, CreateRosterRequest, DeleteRosterRequest } from "../../schemas/roster/roster.schemas";
   import { RosterService } from "./roster.service";
   import { Roster } from "src/entities/roster/roster.entity";
 
@@ -67,15 +68,15 @@ export class RosterController {
     //     return this.rosterService.findOne()
     // }
 
-    // @Delete()
-    // @ApiOperation({ summary: "Delete all rosters" })
-    // @ApiResponse({
-    //     status: 200,
-    //     description: "Success",
-    // })
-    // // not done
-    // clear(): void {
-
-    // }
+    @Delete()
+    @ApiOperation({ summary: "Delete a roster" })
+    @ApiResponse({
+        status: 200,
+        description: "Success",
+    })
+    // not done
+    clear(@Request() req): void {
+      this.rosterService.remove(req.user.sub);
+    }
 
 }

@@ -17,7 +17,7 @@ export class Roster {
 
     // draftPosition - this will be the position in the draft when the user picks
     @ApiProperty({ example: 2, description: "Draft Position" })
-    @Column({ nullable: false }) 
+    @Column({ nullable: false })
     draftPosition: number;
     
     // players - array of player objects to hold players in the roster

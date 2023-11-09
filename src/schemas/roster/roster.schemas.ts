@@ -13,3 +13,15 @@ export class CreateRosterRequest {
   @IsNumber()
   draftPosition: number;
 }
+
+export class DeleteRosterRequest {
+  @ApiProperty({ example: 1, description: "ID"})
+  @IsNumber()
+  id: number;
+}
+
+// export class DeleteRosterResponse {
+//   @ApiProperty({ example: 1, description: "ID"})
+//   @IsNumber()
+//   id: number;
+// }
