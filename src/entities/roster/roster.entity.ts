@@ -4,7 +4,6 @@ import { ApiProperty } from "@nestjs/swagger";
 // defining how a roster should be stored in the database
 @Entity()
 export class Roster {
-    // attributes we should include are
 
     // id - so that each roster is unique
     @PrimaryGeneratedColumn()

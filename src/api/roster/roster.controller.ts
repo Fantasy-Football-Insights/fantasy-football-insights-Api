@@ -58,7 +58,7 @@ export class RosterController {
       return this.rosterService.create(players, req.user.sub, createRosterDTo.draftPosition);
     }
 
-    @Get("{id}")
+    @Get(":id")
     @ApiOperation({ summary: "Get one roster" })
     @ApiResponse({
         status: 200,
@@ -69,11 +69,11 @@ export class RosterController {
       description: "Roster not found"
     })
     // Param function allows us to get an input from the user and use it
-    findOne(@Param("ID") id: number): Promise<Roster> {
+    findOne(@Param("id") id: number): Promise<Roster> {
         return this.rosterService.findOne(id)
     }
 
-    @Delete("{id}")
+    @Delete(":id")
     @ApiOperation({ summary: "Delete a roster" })
     @ApiResponse({
         status: 200,
@@ -84,7 +84,7 @@ export class RosterController {
       description: "Roster not found"
     })
     // takes an ID that the user inputs and removes that roster
-    clear(@Param("ID") id: number): Promise<Roster[]> {
+    del(@Param("id") id: number): Promise<void> {
       return this.rosterService.remove(id);
     }
 

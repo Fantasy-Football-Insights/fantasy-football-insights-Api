@@ -28,16 +28,15 @@ export class RosterService {
     return roster
   }
 
-  async findOne(id: number): Promise<Roster> {
-    const roster = this.RostersRepository.query(`SELECT * FROM roster WHERE id = ${id}`);
+  async findOne(uniqueID: number): Promise<Roster> {
+    const roster = this.RostersRepository.findOneBy({ id: uniqueID });
     if (!roster) {
-      throw new NotFoundException();
-    } 
+        throw new NotFoundException();
+    }
     return roster;
   }
 
-  async remove(id: number): Promise<Roster[]> {
-    await this.RostersRepository.query(`DELETE FROM roster WHERE id = ${id}`);
-    return this.RostersRepository.find();
+  async remove(uniqueID: number): Promise<void> {
+    await this.RostersRepository.delete({ id: uniqueID });
   }
 }
