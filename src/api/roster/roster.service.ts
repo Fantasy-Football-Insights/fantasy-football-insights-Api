@@ -29,7 +29,7 @@ export class RosterService {
   }
 
   async findOne(uniqueID: number): Promise<Roster> {
-    const roster = this.RostersRepository.findOneBy({ id: uniqueID });
+    const roster =  await this.RostersRepository.findOneBy({ id: uniqueID });
     if (!roster) {
         throw new NotFoundException();
     }
