@@ -19,7 +19,7 @@ import {
 import { Public } from "src/decorators/public.decorator";
   import { CreateRosterResponse, CreateRosterRequest, DeleteRosterRequest } from "../../schemas/roster/roster.schemas";
   import { RosterService } from "./roster.service";
-  import { Roster } from "src/entities/roster/roster.entity";
+  import { Roster } from "../../entities/roster/roster.entity";
 
 @ApiOAuth2([], "Authentication")
 @ApiTags('Roster')
@@ -56,6 +56,20 @@ export class RosterController {
       
       // Using the create function to create a roster
       return this.rosterService.create(players, req.user.sub, createRosterDTo.draftPosition);
+    }
+
+    @Get("me")
+    @ApiOperation({ summary: "Get my rosters" })
+    @ApiResponse({
+      status: 200,
+      description: "Success"
+    })
+    @ApiResponse({
+      status: 404,
+      description: "No rosters found"
+    })
+    findMy(@Request() req): Promise<Roster[]> {
+      return this.rosterService.findMyRosters(req.user.sub)
     }
 
     @Get(":id")

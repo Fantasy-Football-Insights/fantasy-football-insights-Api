@@ -1,12 +1,11 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
-import { Roster } from "../../entities/roster/roster.entity";
+import { Not, Repository } from "typeorm";
+import { Roster } from "../../entities/roster/roster.entity"
 
 @Injectable()
 export class RosterService {
 
-    // still need to edit functions (copied from user.service)
   constructor(
     @InjectRepository(Roster)
     private readonly RostersRepository: Repository<Roster>
@@ -39,4 +38,13 @@ export class RosterService {
   async remove(uniqueID: number): Promise<void> {
     await this.RostersRepository.delete({ id: uniqueID });
   }
+
+async findMyRosters(owner_id: number): Promise<Roster[]> {
+  const rosters = await this.RostersRepository.query(`select * from roster where Owner_ID = ${owner_id}`);
+  if (!rosters) {
+    throw new NotFoundException()
+  }
+  return rosters;
+}
+
 }
