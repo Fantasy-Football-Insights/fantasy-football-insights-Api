@@ -2,22 +2,18 @@ import {
     Controller,
     Body,
     Post,
-    HttpStatus,
     Request,
     Delete,
     Get,
     Param,
-    BadRequestException,
   } from "@nestjs/common";
   import {
-    ApiBearerAuth,
     ApiOperation,
     ApiResponse,
     ApiTags, 
     ApiOAuth2,
   } from "@nestjs/swagger";
-import { Public } from "src/decorators/public.decorator";
-  import { CreateRosterResponse, CreateRosterRequest, DeleteRosterRequest } from "../../schemas/roster/roster.schemas";
+  import { CreateRosterResponse, CreateRosterRequest } from "../../schemas/roster/roster.schemas";
   import { RosterService } from "./roster.service";
   import { Roster } from "../../entities/roster/roster.entity"
 

@@ -1,4 +1,4 @@
-import { IsNumber, IsString } from "class-validator";
+import { IsNumber} from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
 
 // schema that is used when a user signs in
