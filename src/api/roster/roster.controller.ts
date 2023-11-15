@@ -19,7 +19,7 @@ import {
 import { Public } from "src/decorators/public.decorator";
   import { CreateRosterResponse, CreateRosterRequest, DeleteRosterRequest } from "../../schemas/roster/roster.schemas";
   import { RosterService } from "./roster.service";
-  import { Roster } from "../../entities/roster/roster.entity";
+  import { Roster } from "../../entities/roster/roster.entity"
 
 @ApiOAuth2([], "Authentication")
 @ApiTags('Roster')

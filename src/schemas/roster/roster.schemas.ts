@@ -19,4 +19,3 @@ export class DeleteRosterRequest {
   @IsNumber()
   id: number;
 }
-

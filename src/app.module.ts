@@ -8,8 +8,7 @@ import { RosterModule } from "./api/roster/roster.module"
 
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { User } from "./entities/users/user.entity";
-import { Roster } from "./entities/roster/roster.entity";
-
+import { Roster } from "./entities/roster/roster.entity"
 
 import configuration from "config/configuration";
 
