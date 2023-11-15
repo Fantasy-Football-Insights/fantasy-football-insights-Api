@@ -4,9 +4,11 @@ import { AppService } from "./app.service";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { AuthModule } from "./api/auth/auth.module";
 import { UsersModule } from "./api/users/users.module";
+import { RosterModule } from "./api/roster/roster.module"
 
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { User } from "./entities/users/user.entity";
+import { Roster } from "./entities/roster/roster.entity"
 
 import configuration from "config/configuration";
 
@@ -23,7 +25,7 @@ import configuration from "config/configuration";
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
         ...configService.get("database"),
-        entities: [User],
+        entities: [User, Roster],
         synchronize: true,
       }),
       inject: [ConfigService],
@@ -32,6 +34,7 @@ import configuration from "config/configuration";
     // Import modules
     AuthModule,
     UsersModule,
+    RosterModule
   ],
   controllers: [AppController],
   providers: [AppService],
