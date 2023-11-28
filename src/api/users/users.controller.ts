@@ -1,19 +1,7 @@
-import { Body, Controller, Delete, Get, Param, Request } from "@nestjs/common";
-import { User } from "../../entities/users/user.entity";
+import { Controller, Delete, Get, Param, Request } from "@nestjs/common";
+import { ApiOAuth2, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { UserProfileSchema } from "src/schemas/users/users.schemas";
 import { UsersService } from "./users.service";
-import { Public } from "src/decorators/public.decorator";
-import {
-  UserProfileSchema,
-  CreateUserSchema,
-  UserInDbSchema,
-} from "src/schemas/users/users.schemas";
-import {
-  ApiBearerAuth,
-  ApiOperation,
-  ApiResponse,
-  ApiTags,
-  ApiOAuth2,
-} from "@nestjs/swagger";
 
 @ApiOAuth2([], "Authentication")
 @ApiTags("Users")
@@ -75,7 +63,7 @@ export class UsersController {
     return this.usersService.findById(id);
   }
 
-  @Delete(":id")
+  @Delete()
   @ApiOperation({ summary: "Delete User" })
   @ApiResponse({
     status: 200,
@@ -89,7 +77,7 @@ export class UsersController {
     status: 401,
     description: "Access Forbidden",
   })
-  remove(@Param("id") id: string): Promise<void> {
-    return this.usersService.remove(id);
+  remove(@Request() req): Promise<void> {
+    return this.usersService.remove(req.user.sub);
   }
 }
