@@ -45,6 +45,7 @@ export class RosterController {
     // Then we promise that what is returned is a CreateRosterResponse 
     createRoster(@Request() req, @Body() createRosterDTo: CreateRosterRequest): Promise<CreateRosterResponse>{
       
+      
       // Using the create function to create a roster
       return this.rosterService.create(createRosterDTo.players, req.user.sub, createRosterDTo.draftPosition);
     }
