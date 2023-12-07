@@ -13,11 +13,7 @@ describe('AuthController', () => {
         useValue: {
             findAll: jest.fn((x) => x)
         }
-<<<<<<< HEAD
-        }]
-=======
       }]
->>>>>>> main
     }).compile();
 
     controller = module.get<RosterController>(RosterController);
@@ -27,16 +23,9 @@ describe('AuthController', () => {
     expect(controller).toBeDefined();
   });
 
-<<<<<<< HEAD
-  describe('getAll', () => {
-      it('should return array of rosters', async () => {
-        await controller.findAll();
-      })
-=======
   describe('FindAll', () => {
     it('should return array of players', async () => {
         await controller.findAll();
     })
->>>>>>> main
   })
 });
