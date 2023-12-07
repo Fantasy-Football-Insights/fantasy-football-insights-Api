@@ -11,21 +11,22 @@ import { ApiOAuth2, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { Roster } from "../../entities/roster/roster.entity";
 import {
   CreateRosterRequest,
-  CreateRosterResponse,
+  RosterSchema,
 } from "../../schemas/roster/roster.schemas";
 import { RosterService } from "./roster.service";
 
 @ApiOAuth2([], "Authentication")
 @ApiTags("Roster")
-@Controller("Roster")
+@Controller("rosters")
 export class RosterController {
   constructor(private readonly rosterService: RosterService) {}
 
-  @Get("All")
+  @Get("")
   @ApiOperation({ summary: "Get all rosters" })
   @ApiResponse({
     status: 200,
     description: "Success",
+    type: [RosterSchema],
   })
   // This should return all rosters in the database
   findAll(): Promise<Roster[]> {
@@ -33,10 +34,11 @@ export class RosterController {
   }
 
   @Post()
-  @ApiOperation({ summary: "Create a roster " })
+  @ApiOperation({ summary: "Create a roster" })
   @ApiResponse({
     status: 200,
     description: "Created a roster successfully",
+    type: RosterSchema,
   })
   // we need @Request() to get the user information
   // CreateRosterRequest is used because when we create the roster, we want the user to input the draftPosition as a parameter
@@ -44,22 +46,57 @@ export class RosterController {
   createRoster(
     @Request() req,
     @Body() createRosterDTO: CreateRosterRequest
-  ): Promise<CreateRosterResponse> {
+  ): Promise<Roster> {
     // dummy roster of players
-    const player1 = { name: "asdf", position: "QB" };
-    const player2 = { name: "uu", position: "RB" };
-    const player3 = { name: "qwer", position: "WR" };
-    const players = [player1, player2, player3];
+    const players = [
+      {
+        name: "Christian McCaffrey",
+        team: "SF",
+        mainPos: "RB",
+        allPos: ["RB", "RB/WR", "RB/WR/TE", "OP", "BE", "IR"],
+        injured: false,
+        curAvgPts: 24.8,
+        sznAvgProj: 19.6,
+        pctOwned: 99.95,
+        pctStarted: 98.41,
+        drafted: false,
+      },
+      {
+        name: "Tyreek Hill",
+        team: "MIA",
+        mainPos: "WR",
+        allPos: ["RB/WR", "WR", "WR/TE", "RB/WR/TE", "OP", "BE", "IR"],
+        injured: false,
+        curAvgPts: 25.48,
+        sznAvgProj: 19.58,
+        pctOwned: 99.94,
+        pctStarted: 97.21,
+        drafted: false,
+      },
+      {
+        name: "Travis Kelce",
+        team: "KC",
+        mainPos: "TE",
+        allPos: ["WR/TE", "TE", "RB/WR/TE", "OP", "BE", "IR"],
+        injured: false,
+        curAvgPts: 17.12,
+        sznAvgProj: 18.61,
+        pctOwned: 99.93,
+        pctStarted: 97.21,
+        drafted: false,
+      },
+    ];
 
     // Using the create function to create a roster
     return this.rosterService.create(players, req.user.sub, createRosterDTO);
   }
 
-  @Get("me")
+  @Get("my")
   @ApiOperation({ summary: "Get my rosters" })
   @ApiResponse({
     status: 200,
     description: "Success",
+    type: [RosterSchema],
   })
   @ApiResponse({
     status: 404,
@@ -74,6 +111,7 @@ export class RosterController {
   @ApiResponse({
     status: 200,
     description: "Success",
+    type: RosterSchema,
   })
   @ApiResponse({
     status: 404,
