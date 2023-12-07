@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { draftFantasyTeams } from "src/draftUtilities";
 import { PlayerSchema } from "src/schemas/players/players.schemas";
 import { CreateRosterRequest } from "src/schemas/roster/roster.schemas";
 import { Repository } from "typeorm";
@@ -22,10 +23,11 @@ export class RosterService {
     ownerId: number,
     createRosterDTO: CreateRosterRequest
   ) {
+    const draft = await draftFantasyTeams();
     // waits for the roster to be saved to database and assigns it to roster variable
     const roster = await this.RostersRepository.save({
       ownerId,
-      players,
+      players: draft[0].players,
       ...createRosterDTO,
     });
     // returns the roster
