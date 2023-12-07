@@ -27,7 +27,7 @@ export class RosterService {
     // waits for the roster to be saved to database and assigns it to roster variable
     const roster = await this.RostersRepository.save({
       ownerId,
-      players: draft[0].players,
+      players: draft[createRosterDTO.draftPosition - 1].players,
       ...createRosterDTO,
     });
     // returns the roster
