@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { PlayerSchema } from "src/schemas/players/players.schemas";
 import { CreateRosterRequest } from "src/schemas/roster/roster.schemas";
 import { Repository } from "typeorm";
 import { Roster } from "../../entities/roster/roster.entity";
@@ -17,14 +18,14 @@ export class RosterService {
 
   // creates a roster
   async create(
-    Players: any[],
-    Owner_ID: number,
+    players: PlayerSchema[],
+    ownerId: number,
     createRosterDTO: CreateRosterRequest
   ) {
     // waits for the roster to be saved to database and assigns it to roster variable
     const roster = await this.RostersRepository.save({
-      Owner_ID,
-      Players,
+      ownerId,
+      players,
       ...createRosterDTO,
     });
     // returns the roster
@@ -43,9 +44,9 @@ export class RosterService {
     await this.RostersRepository.delete({ id: uniqueID });
   }
 
-  async findMyRosters(owner_id: number): Promise<Roster[]> {
+  async findMyRosters(ownerId: number): Promise<Roster[]> {
     const rosters = await this.RostersRepository.query(
-      `select * from roster where Owner_ID = ${owner_id}`
+      `select * from roster where ownerId = ${ownerId}`
     );
     if (!rosters) {
       throw new NotFoundException();
