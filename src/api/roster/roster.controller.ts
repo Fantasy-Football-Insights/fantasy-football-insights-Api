@@ -44,14 +44,9 @@ export class RosterController {
     // CreateRosterRequest is used because when we create the roster, we want the user to input the draftPosition as a parameter
     // Then we promise that what is returned is a CreateRosterResponse 
     createRoster(@Request() req, @Body() createRosterDTo: CreateRosterRequest): Promise<CreateRosterResponse>{
-      // dummy roster of players
-      const player1 = {name: "asdf", position: "QB"}
-      const player2 = {name: "uu", position: "RB"}
-      const player3 = {name: "qwer", position: "WR"}
-      const players = [player1, player2, player3]
       
       // Using the create function to create a roster
-      return this.rosterService.create(players, req.user.sub, createRosterDTo.draftPosition);
+      return this.rosterService.create(createRosterDTo.players, req.user.sub, createRosterDTo.draftPosition);
     }
 
     @Get("me")
