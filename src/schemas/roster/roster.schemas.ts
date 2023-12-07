@@ -1,8 +1,9 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsNumber, IsString } from "class-validator";
+import { PlayerSchema } from "../players/players.schemas";
 
 // schema that is used when a user signs in
-export class CreateRosterResponse {
+export class RosterSchema {
   @ApiProperty({ example: 1, description: "ID" })
   @IsNumber()
   id: number;
@@ -27,9 +28,24 @@ export class CreateRosterResponse {
   @IsNumber()
   leagueSize: number;
 
-  @ApiProperty({ example: 10, description: "League Size" })
-  @IsNumber()
-  players: JSON;
+  @ApiProperty({
+    example: [
+      {
+        name: "Christian McCaffrey",
+        team: "SF",
+        mainPos: "RB",
+        allPos: ["RB", "RB/WR", "RB/WR/TE", "OP", "BE", "IR"],
+        injured: false,
+        curAvgPts: 24.8,
+        sznAvgProj: 19.6,
+        pctOwned: 99.95,
+        pctStarted: 98.41,
+        drafted: false,
+      },
+    ],
+    description: "League Size",
+  })
+  players: PlayerSchema[];
 }
 
 export class CreateRosterRequest {
