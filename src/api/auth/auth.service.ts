@@ -5,12 +5,12 @@ import {
 } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { UsersService } from "src/api/users/users.service";
+import { UsersService } from "../../api/users/users.service";
 import { JwtService } from "@nestjs/jwt";
-import { comparePassword } from "src/core/security";
-import { User } from "src/entities/users/user.entity";
-import { CreateUserSchema } from "src/schemas/users/users.schemas";
-import { hashPassword } from "src/core/security";
+import { comparePassword } from "../../core/security";
+import { User } from "../../entities/users/user.entity";
+import { CreateUserSchema } from "../../schemas/users/users.schemas";
+import { hashPassword } from "../../core/security";
 
 @Injectable()
 export class AuthService {

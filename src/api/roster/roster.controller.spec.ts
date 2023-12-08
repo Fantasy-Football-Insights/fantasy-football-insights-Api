@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { RosterController } from './roster.controller';
 import { RosterService } from './roster.service';
 
-describe('AuthController', () => {
+describe('RosterController', () => {
   let controller: RosterController;
 
   const mockFunctions = {
@@ -50,7 +50,7 @@ describe('AuthController', () => {
           ]
         }
 
-        const rosters = [roster]
+        const rosters = [roster];
         jest.spyOn(mockFunctions, 'findAll').mockReturnValue(rosters);
 
         const result = await controller.findAll();
@@ -59,4 +59,11 @@ describe('AuthController', () => {
         expect(mockFunctions.findAll).toBeCalled();
     })
   })
+
+  describe('create', () => {
+    it('should return a roster', async () => {
+      
+    })
+  })
+
 });

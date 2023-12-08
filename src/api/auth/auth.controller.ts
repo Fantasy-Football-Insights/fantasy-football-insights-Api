@@ -1,13 +1,13 @@
 import { BadRequestException, Body, Controller, Post } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
-import { User } from "src/entities/users/user.entity";
-import { LogInResponse } from "src/schemas/auth/auth.schemas";
+import { User } from "../../entities/users/user.entity";
+import { LogInResponse } from "../../schemas/auth/auth.schemas";
 import {
   CreateUserSchema,
   Oauth2SignInSchema,
   UserProfileSchema,
   UserSignInSchema,
-} from "src/schemas/users/users.schemas";
+} from "../../schemas/users/users.schemas";
 import { Public } from "../../decorators/public.decorator";
 import { AuthService } from "./auth.service";
 
