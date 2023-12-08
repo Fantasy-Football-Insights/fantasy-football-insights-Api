@@ -16,7 +16,9 @@ export interface Player {
 export interface Team {
   name: string;
   players: Player[];
-  qbCount: number;
+  totProjPts: number;
+  dstDrafted: boolean;
+  kDrafted: boolean;
 }
 
 async function getPlayers(): Promise<Player[]> {
@@ -31,13 +33,36 @@ async function getPlayers(): Promise<Player[]> {
 }
 
 export async function draftFantasyTeams(): Promise<Team[]> {
-  const NUM_TEAMS = 10;
-  const EARLY_ROUND_THRESHOLD = 4;
-  const MAX_QBS_PER_TEAM = 2;
+  const NUM_TEAMS = 12;
+  const NUM_ROUNDS = 16;
+  const positionPreferences = {
+    1: ["RB", "WR"],
+    2: ["WR", "RB"],
+    3: ["RB", "WR"],
+    4: ["WR", "RB"],
+    5: ["QB", "WR"],
+    6: ["WR", "QB"],
+    7: ["RB", "TE"],
+    8: ["TE", "RB"],
+    9: ["WR", "RB"],
+    10: ["WR", "K"],
+    11: ["K", "D/ST"],
+    12: ["D/ST", "K"],
+    13: ["QB", "WR"],
+    14: ["TE", "RB"],
+    15: ["WR", "RB", "K", "D/ST"],
+    16: ["K", "D/ST", "WR", "RB"],
+  };
   let teams: Team[] = [];
 
   for (let i = 0; i < NUM_TEAMS; i++) {
-    teams.push({ name: `Team_${i + 1}`, players: [], qbCount: 0 });
+    teams.push({
+      name: `Team_${i + 1}`,
+      players: [],
+      totProjPts: 0,
+      dstDrafted: false,
+      kDrafted: false,
+    });
   }
 
   const players = await getPlayers();
@@ -45,31 +70,43 @@ export async function draftFantasyTeams(): Promise<Team[]> {
   // Sort players by their season average projection, descending
   players.sort((a, b) => b.pctOwned - a.pctOwned);
 
-  const rounds = players.length / NUM_TEAMS;
-  for (let round = 0; round < rounds; round++) {
+  for (let round = 0; round < NUM_ROUNDS; round++) {
     let teamOrder = [...Array(NUM_TEAMS).keys()];
     if (round % 2 !== 0) teamOrder.reverse();
 
     for (let teamIndex of teamOrder) {
       let team = teams[teamIndex];
+      let preferredPositions = positionPreferences[round + 1];
 
-      // Find next best player, considering QB constraints
+      // Adjust preferred positions based on QB and K drafted in previous rounds
+      if (team.dstDrafted) {
+        preferredPositions = preferredPositions.filter((pos) => pos !== "D/ST");
+      }
+      if (team.kDrafted) {
+        preferredPositions = preferredPositions.filter((pos) => pos !== "K");
+      }
+
+      // Find next best player based on position preferences
       let playerIndex = players.findIndex((player) => {
         if (player.drafted) return false;
-        if (player.mainPos === "QB") {
-          // Avoid drafting QB in early rounds and limit QBs per team
-          return (
-            round >= EARLY_ROUND_THRESHOLD && team.qbCount < MAX_QBS_PER_TEAM
-          );
-        }
-        return true;
+        return preferredPositions[0] === player.mainPos;
       });
+
+      // If no preferred player is available, select the next best available player for the preffered position
+      if (playerIndex === -1) {
+        playerIndex = players.findIndex(
+          (player) =>
+            !player.drafted && preferredPositions[0] === player.mainPos
+        );
+      }
 
       if (playerIndex !== -1) {
         let player = players[playerIndex];
         player.drafted = true;
         team.players.push(player);
-        if (player.mainPos === "QB") team.qbCount++;
+        team.totProjPts = team.totProjPts + player.sznAvgProj;
+        if (player.mainPos === "D/ST") team.dstDrafted = true;
+        if (player.mainPos === "K") team.kDrafted = true;
       }
     }
   }
