@@ -78,7 +78,7 @@ export async function draftFantasyTeams(): Promise<Team[]> {
       let team = teams[teamIndex];
       let preferredPositions = positionPreferences[round + 1];
 
-      // Adjust preferred positions based on QB and K drafted in previous rounds
+      // Adjust preferred positions based on if a defense or kicker has been drafted. Only want to draft 1 defense and 1 kicker.
       if (team.dstDrafted) {
         preferredPositions = preferredPositions.filter((pos) => pos !== "D/ST");
       }
@@ -98,6 +98,11 @@ export async function draftFantasyTeams(): Promise<Team[]> {
           (player) =>
             !player.drafted && preferredPositions[0] === player.mainPos
         );
+      }
+
+      // If no preferred preferences, just draft the next best player.
+      if (playerIndex === -1) {
+        playerIndex = players.findIndex((player) => !player.drafted);
       }
 
       if (playerIndex !== -1) {
