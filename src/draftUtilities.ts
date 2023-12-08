@@ -1,3 +1,4 @@
+import { Client } from "espn-fantasy-football-api/node";
 import { promises as fsPromises } from "fs";
 
 export interface Player {
@@ -16,9 +17,6 @@ export interface Player {
 export interface Team {
   name: string;
   players: Player[];
-  totProjPts: number;
-  dstDrafted: boolean;
-  kDrafted: boolean;
 }
 
 async function getPlayers(): Promise<Player[]> {
@@ -33,7 +31,15 @@ async function getPlayers(): Promise<Player[]> {
 }
 
 export async function draftFantasyTeams(): Promise<Team[]> {
-  const NUM_TEAMS = 12;
+  const myClient = new Client({
+    leagueId: 141523808,
+    espnS2:
+      "AEA3woMTskPN%2BfGOTpk8I%2FJF%2FBYj%2FAlHqPmEvda%2F6uyDIbiM4px%2FofYLJ5ki3Pt1hsfsL1KeNmEkZSLerfFz1YB1MT%2F2HTWlhOWSTf1SRF18qnTWoyrVQTZa2K12aa9H1U7iHEIvZM0v7nT%2B55ZmDnspsH4RTR9E2CUKg2NZrc%2F2XIV8LKFdZE3r3I2NB754Rk8yZWm2TJYpMc7ykKlEqs%2FS%2Fk1lGH2%2F9AXKBNt9QrAZuURiWBdtmuC8rxjr0TU2vHGB%2BuL5NwNGzkUKhKdqloEI",
+    SWID: "{B9C988DA-8EA9-440B-8988-DA8EA9240BB5}",
+  });
+  console.log(await myClient.getLeagueInfo({ seasonId: 2023 }));
+  const leagueInfo = await myClient.getLeagueInfo({ seasonId: 2023 });
+  const NUM_TEAMS = leagueInfo.size;
   const NUM_ROUNDS = 16;
   const positionPreferences = {
     1: ["RB", "WR", "TE", "QB"],
@@ -59,9 +65,6 @@ export async function draftFantasyTeams(): Promise<Team[]> {
     teams.push({
       name: `Team_${i + 1}`,
       players: [],
-      totProjPts: 0,
-      dstDrafted: false,
-      kDrafted: false,
     });
   }
 
@@ -77,14 +80,6 @@ export async function draftFantasyTeams(): Promise<Team[]> {
     for (let teamIndex of teamOrder) {
       let team = teams[teamIndex];
       let preferredPositions = positionPreferences[round + 1];
-
-      // Adjust preferred positions based on if a defense or kicker has been drafted. Only want to draft 1 defense and 1 kicker.
-      if (team.dstDrafted) {
-        preferredPositions = preferredPositions.filter((pos) => pos !== "D/ST");
-      }
-      if (team.kDrafted) {
-        preferredPositions = preferredPositions.filter((pos) => pos !== "K");
-      }
 
       // Find next best player based on position preferences
       let playerIndex = players.findIndex((player) => {
@@ -109,12 +104,9 @@ export async function draftFantasyTeams(): Promise<Team[]> {
         let player = players[playerIndex];
         player.drafted = true;
         team.players.push(player);
-        team.totProjPts = team.totProjPts + player.sznAvgProj;
-        if (player.mainPos === "D/ST") team.dstDrafted = true;
-        if (player.mainPos === "K") team.kDrafted = true;
       }
     }
   }
-  console.log(teams);
+
   return teams;
 }
