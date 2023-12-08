@@ -68,7 +68,7 @@ export async function draftFantasyTeams(): Promise<Team[]> {
   const players = await getPlayers();
 
   // Sort players by their season average projection, descending
-  players.sort((a, b) => b.pctOwned - a.pctOwned);
+  players.sort((a, b) => b.sznAvgProj - a.sznAvgProj);
 
   for (let round = 0; round < NUM_ROUNDS; round++) {
     let teamOrder = [...Array(NUM_TEAMS).keys()];
