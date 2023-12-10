@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { PlayerSchema } from "src/schemas/players/players.schemas";
 
 // defining how a roster should be stored in the database
 @Entity()
@@ -39,5 +40,5 @@ export class Roster {
     description: "Players",
   })
   @Column("json", { nullable: false })
-  players: any[];
+  players: PlayerSchema[];
 }

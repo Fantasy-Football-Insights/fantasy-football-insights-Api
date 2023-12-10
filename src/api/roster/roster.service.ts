@@ -21,12 +21,12 @@ export class RosterService {
     players: PlayerSchema[],
     ownerId: number,
     createRosterDTO: CreateRosterRequest
-  ) {
+  ): Promise<Roster>{
     // waits for the roster to be saved to database and assigns it to roster variable
     const roster = await this.RostersRepository.save({
       ownerId,
       players,
-      ...createRosterDTO,
+      createRosterDTO,
     });
     // returns the roster
     return roster;

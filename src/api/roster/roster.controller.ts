@@ -43,7 +43,7 @@ export class RosterController {
   // we need @Request() to get the user information
   // CreateRosterRequest is used because when we create the roster, we want the user to input the draftPosition as a parameter
   // Then we promise that what is returned is a CreateRosterResponse
-  createRoster(
+  create(
     @Request() req,
     @Body() createRosterDTO: CreateRosterRequest
   ): Promise<Roster> {
@@ -102,7 +102,7 @@ export class RosterController {
     status: 404,
     description: "No rosters found",
   })
-  findMy(@Request() req): Promise<Roster[]> {
+  findMyRosters(@Request() req): Promise<Roster[]> {
     return this.rosterService.findMyRosters(req.user.sub);
   }
 
