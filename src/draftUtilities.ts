@@ -29,7 +29,10 @@ async function getPlayers(): Promise<Player[]> {
   }
 }
 
-export async function draftFantasyTeams(leagueSize: number): Promise<Team[]> {
+export async function draftFantasyTeams(
+  leagueSize: number,
+  pickPreference: string
+): Promise<Team[]> {
   const NUM_TEAMS = leagueSize;
   const NUM_ROUNDS = 16;
   const positionPreferences = {
@@ -50,6 +53,9 @@ export async function draftFantasyTeams(leagueSize: number): Promise<Team[]> {
     15: ["D/ST", "K", "RB", "WR"],
     16: ["K", "D/ST", "WR", "RB"],
   };
+
+  const PICK_PREFERENCE = positionPreferences[1].indexOf(pickPreference);
+
   let teams: Team[] = [];
 
   for (let i = 0; i < NUM_TEAMS; i++) {
@@ -75,14 +81,15 @@ export async function draftFantasyTeams(leagueSize: number): Promise<Team[]> {
       // Find next best player based on position preferences
       let playerIndex = players.findIndex((player) => {
         if (player.drafted) return false;
-        return preferredPositions[0] === player.mainPos;
+        return preferredPositions[PICK_PREFERENCE] === player.mainPos;
       });
 
       // If no preferred player is available, select the next best available player for the preffered position
       if (playerIndex === -1) {
         playerIndex = players.findIndex(
           (player) =>
-            !player.drafted && preferredPositions[0] === player.mainPos
+            !player.drafted &&
+            preferredPositions[PICK_PREFERENCE] === player.mainPos
         );
       }
 
