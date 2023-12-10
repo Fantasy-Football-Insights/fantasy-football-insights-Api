@@ -1,8 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { RosterController } from './roster.controller';
 import { RosterService } from './roster.service';
-import { CreateRosterRequest, RosterSchema } from '../../schemas/roster/roster.schemas'
-import { NotFoundException } from '@nestjs/common';
+import { CreateRosterRequest, RosterSchema } from '../../schemas/roster/roster.schemas';
 
 describe('RosterController', () => {
   let controller: RosterController;
@@ -33,113 +32,113 @@ describe('RosterController', () => {
 
   describe('findAll', () => {
     it('should return array of rosters', async () => {
-        const roster = {
-          id: 1,
-          ownerId: 1,
-          draftPosition: 1,
-          leagueName: 'Test',
-          teamName: 'Cleveland Browns',
-          leagueSize: 5,
-          players: [
-            {
-              name: "Christian McCaffrey",
-              team: "SF",
-              mainPos: "RB",
-              allPos: ["RB", "RB/WR", "RB/WR/TE", "OP", "BE", "IR"],
-              injured: false,
-              curAvgPts: 24.8,
-              sznAvgProj: 19.6,
-              pctOwned: 99.95,
-              pctStarted: 98.41,
-              drafted: false,
-            },
-          ]
-        }
+      const roster = {
+        id: 1,
+        ownerId: 1,
+        draftPosition: 1,
+        leagueName: 'Test',
+        teamName: 'Cleveland Browns',
+        leagueSize: 5,
+        players: [
+          {
+            name: "Christian McCaffrey",
+            team: "SF",
+            mainPos: "RB",
+            allPos: ["RB", "RB/WR", "RB/WR/TE", "OP", "BE", "IR"],
+            injured: false,
+            curAvgPts: 24.8,
+            sznAvgProj: 19.6,
+            pctOwned: 99.95,
+            pctStarted: 98.41,
+            drafted: false,
+          },
+        ]
+      }
 
-        const rosters = [roster];
-        jest.spyOn(mockFunctions, 'findAll').mockReturnValue(rosters);
+      const rosters = [roster];
+      jest.spyOn(mockFunctions, 'findAll').mockReturnValue(rosters);
 
-        const result = await controller.findAll();
+      const result = await controller.findAll();
 
-        expect(result).toEqual(rosters);
-        expect(mockFunctions.findAll).toBeCalled();
+      expect(result).toEqual(rosters);
+      expect(mockFunctions.findAll).toBeCalled();
     })
   })
-  
+
 
   describe('findMyRosters', () => {
     it('should return array of rosters', async () => {
-        const roster = {
-          id: 1,
-          ownerId: 1,
-          draftPosition: 1,
-          leagueName: 'Test',
-          teamName: 'Cleveland Browns',
-          leagueSize: 5,
-          players: [
-            {
-              name: "Christian McCaffrey",
-              team: "SF",
-              mainPos: "RB",
-              allPos: ["RB", "RB/WR", "RB/WR/TE", "OP", "BE", "IR"],
-              injured: false,
-              curAvgPts: 24.8,
-              sznAvgProj: 19.6,
-              pctOwned: 99.95,
-              pctStarted: 98.41,
-              drafted: false,
-            },
-          ]
+      const roster = {
+        id: 1,
+        ownerId: 1,
+        draftPosition: 1,
+        leagueName: 'Test',
+        teamName: 'Cleveland Browns',
+        leagueSize: 5,
+        players: [
+          {
+            name: "Christian McCaffrey",
+            team: "SF",
+            mainPos: "RB",
+            allPos: ["RB", "RB/WR", "RB/WR/TE", "OP", "BE", "IR"],
+            injured: false,
+            curAvgPts: 24.8,
+            sznAvgProj: 19.6,
+            pctOwned: 99.95,
+            pctStarted: 98.41,
+            drafted: false,
+          },
+        ]
+      }
+
+      const mockRequest = {
+        user: {
+          sub: 1
         }
+      }
 
-        const mockRequest = {
-          user: {
-            sub: 1
-          }
-        }
+      const rosters = [roster];
+      jest.spyOn(mockFunctions, 'findMyRosters').mockReturnValue(rosters);
 
-        const rosters = [roster];
-        jest.spyOn(mockFunctions, 'findMyRosters').mockReturnValue(rosters);
+      const result = await controller.findMy(mockRequest);
 
-        const result = await controller.findMy(mockRequest);
-
-        expect(result).toEqual(rosters);
-        expect(mockFunctions.findMyRosters).toBeCalledWith(mockRequest.user.sub);
+      expect(result).toEqual(rosters);
+      expect(mockFunctions.findMyRosters).toBeCalledWith(mockRequest.user.sub);
     })
   })
-  
+
 
   describe('findOne', () => {
     it('should return one roster', async () => {
-        const roster = {
-          id: 1,
-          ownerId: 1,
-          draftPosition: 1,
-          leagueName: 'Test',
-          teamName: 'Cleveland Browns',
-          leagueSize: 5,
-          players: [
-            {
-              name: "Christian McCaffrey",
-              team: "SF",
-              mainPos: "RB",
-              allPos: ["RB", "RB/WR", "RB/WR/TE", "OP", "BE", "IR"],
-              injured: false,
-              curAvgPts: 24.8,
-              sznAvgProj: 19.6,
-              pctOwned: 99.95,
-              pctStarted: 98.41,
-              drafted: false,
-            },
-          ]
-        }
+      const roster = {
+        id: 1,
+        ownerId: 1,
+        draftPosition: 1,
+        leagueName: 'Test',
+        teamName: 'Cleveland Browns',
+        leagueSize: 5,
+        players: [
+          {
+            name: "Christian McCaffrey",
+            team: "SF",
+            mainPos: "RB",
+            allPos: ["RB", "RB/WR", "RB/WR/TE", "OP", "BE", "IR"],
+            injured: false,
+            curAvgPts: 24.8,
+            sznAvgProj: 19.6,
+            pctOwned: 99.95,
+            pctStarted: 98.41,
+            drafted: false,
+          },
+        ]
+      }
 
-        jest.spyOn(mockFunctions, 'findOne').mockReturnValue(roster);
+      jest.spyOn(mockFunctions, 'findOne').mockReturnValue(roster);
 
-        const result = await controller.findOne(1);
+      const result = await controller.findOne(1);
 
-        expect(result).toEqual(roster);
-        expect(mockFunctions.findOne).toBeCalled();
+      expect(result).toEqual(roster);
+      expect(mockFunctions.findOne).toBeCalled();
     })
   })
 
