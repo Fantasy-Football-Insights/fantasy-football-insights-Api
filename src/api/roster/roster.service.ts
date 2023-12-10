@@ -44,7 +44,9 @@ export class RosterService {
   }
 
   async remove(uniqueID: number): Promise<void> {
-    await this.RostersRepository.delete({ id: uniqueID });
+    if (this.findOne(uniqueID)){
+      await this.RostersRepository.delete({ id: uniqueID });
+    }
   }
 
   async findMyRosters(ownerId: number): Promise<Roster[]> {
