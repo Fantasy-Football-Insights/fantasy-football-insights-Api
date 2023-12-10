@@ -1,4 +1,3 @@
-import { Client } from "espn-fantasy-football-api/node";
 import { promises as fsPromises } from "fs";
 
 export interface Player {
@@ -30,16 +29,8 @@ async function getPlayers(): Promise<Player[]> {
   }
 }
 
-export async function draftFantasyTeams(): Promise<Team[]> {
-  const myClient = new Client({
-    leagueId: 141523808,
-    espnS2:
-      "AEA3woMTskPN%2BfGOTpk8I%2FJF%2FBYj%2FAlHqPmEvda%2F6uyDIbiM4px%2FofYLJ5ki3Pt1hsfsL1KeNmEkZSLerfFz1YB1MT%2F2HTWlhOWSTf1SRF18qnTWoyrVQTZa2K12aa9H1U7iHEIvZM0v7nT%2B55ZmDnspsH4RTR9E2CUKg2NZrc%2F2XIV8LKFdZE3r3I2NB754Rk8yZWm2TJYpMc7ykKlEqs%2FS%2Fk1lGH2%2F9AXKBNt9QrAZuURiWBdtmuC8rxjr0TU2vHGB%2BuL5NwNGzkUKhKdqloEI",
-    SWID: "{B9C988DA-8EA9-440B-8988-DA8EA9240BB5}",
-  });
-  console.log(await myClient.getLeagueInfo({ seasonId: 2023 }));
-  const leagueInfo = await myClient.getLeagueInfo({ seasonId: 2023 });
-  const NUM_TEAMS = leagueInfo.size;
+export async function draftFantasyTeams(leagueSize: number): Promise<Team[]> {
+  const NUM_TEAMS = leagueSize;
   const NUM_ROUNDS = 16;
   const positionPreferences = {
     1: ["RB", "WR", "TE", "QB"],

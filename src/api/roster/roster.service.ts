@@ -23,7 +23,7 @@ export class RosterService {
     ownerId: number,
     createRosterDTO: CreateRosterRequest
   ) {
-    const draft = await draftFantasyTeams();
+    const draft = await draftFantasyTeams(createRosterDTO.leagueSize);
     // waits for the roster to be saved to database and assigns it to roster variable
     const roster = await this.RostersRepository.save({
       ownerId,
