@@ -18,15 +18,18 @@ export class RosterService {
 
   // creates a roster
   async create(
-    players: PlayerSchema[],
+    allPlayers: PlayerSchema[],
     ownerId: number,
     createRosterDTO: CreateRosterRequest
   ): Promise<Roster>{
     // waits for the roster to be saved to database and assigns it to roster variable
     const roster = await this.RostersRepository.save({
-      ownerId,
-      players,
-      createRosterDTO,
+      ownerId: ownerId,
+      players: allPlayers,
+      leagueName: createRosterDTO.leagueName,
+      leagueSize: createRosterDTO.leagueSize,
+      teamName: createRosterDTO.teamName,
+      draftPosition: createRosterDTO.draftPosition
     });
     // returns the roster
     return roster;
