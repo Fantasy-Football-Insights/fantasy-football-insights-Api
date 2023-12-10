@@ -16,10 +16,6 @@ export class RosterSchema {
   @IsNumber()
   draftPosition: number;
 
-  @ApiProperty({ example: "String", description: "League Name" })
-  @IsString()
-  leagueName: string;
-
   @ApiProperty({ example: "String", description: "Team Name" })
   @IsString()
   teamName: string;
@@ -49,14 +45,6 @@ export class RosterSchema {
 }
 
 export class CreateRosterRequest {
-  @ApiProperty({ example: 1, description: "Draft Position" })
-  @IsNumber()
-  draftPosition: number;
-
-  @ApiProperty({ example: "String", description: "League Name" })
-  @IsString()
-  leagueName: string;
-
   @ApiProperty({ example: "String", description: "Team Name" })
   @IsString()
   teamName: string;
@@ -64,6 +52,14 @@ export class CreateRosterRequest {
   @ApiProperty({ example: 10, description: "League Size" })
   @IsNumber()
   leagueSize: number;
+
+  @ApiProperty({ example: 1, description: "Draft Position" })
+  @IsNumber()
+  draftPosition: number;
+
+  @ApiProperty({ example: "RB", description: "First Pick Preference" })
+  @IsNumber()
+  pickPreference: string;
 }
 
 export class DeleteRosterRequest {
