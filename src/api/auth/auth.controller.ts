@@ -47,7 +47,7 @@ export class AuthController {
     status: 404,
     description: "User not found",
   })
-  signIn(@Body() signInDto: UserSignInSchema) {
+  login(@Body() signInDto: UserSignInSchema) {
     return this.authService.signIn(signInDto.email, signInDto.password);
   }
 
