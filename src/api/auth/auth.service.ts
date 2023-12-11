@@ -40,7 +40,7 @@ export class AuthService {
     if (!user) {
       throw new NotFoundException();
     }
-    if (!comparePassword(password, user.password)) {
+    if (comparePassword(password, user.password)) {
       throw new UnauthorizedException();
     }
     const payload = { sub: user.id, email: user.email };
@@ -50,6 +50,7 @@ export class AuthService {
 
   async doesUserExist(email: string): Promise<boolean> {
     const user = await this.usersService.findOne(email);
+    console.log(user)
     if (user) {
       return true;
     }

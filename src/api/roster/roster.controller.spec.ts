@@ -3,6 +3,12 @@ import { RosterController } from './roster.controller';
 import { RosterService } from './roster.service';
 import { CreateRosterRequest, RosterSchema } from '../../schemas/roster/roster.schemas';
 
+/*
+
+  Pretty sure this file is not done correctly, but all other unit test files are
+
+*/
+
 describe('RosterController', () => {
   let controller: RosterController;
 
