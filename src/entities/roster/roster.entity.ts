@@ -14,11 +14,6 @@ export class Roster {
   @Column({ nullable: false })
   ownerId: number;
 
-  // League Name - this will be used to display the league name
-  @ApiProperty({ example: "String", description: "League Name" })
-  @Column({ nullable: false })
-  leagueName: string;
-
   // Team Name - this will be used to display the team name
   @ApiProperty({ example: "String", description: "Team Name" })
   @Column({ nullable: false })

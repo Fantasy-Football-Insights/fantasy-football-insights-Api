@@ -192,13 +192,10 @@ describe('RosterController', () => {
       ]
 
       const roster = {
-        id: 1,
-        ownerId: 1,
-        draftPosition: 1,
-        leagueName: 'Test',
-        teamName: 'Cleveland Browns',
+        teamName: 'Dogs',
         leagueSize: 5,
-        players: allPlayers
+        draftPosition: 1,
+        pickPreference: "QB"
       } as CreateRosterRequest;
 
       const mockRequest = {

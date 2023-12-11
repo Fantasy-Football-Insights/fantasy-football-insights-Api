@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { RosterService } from './roster.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Roster } from '../../entities/roster/roster.entity';
+import { CreateRosterRequest } from 'src/schemas/roster/roster.schemas';
 
 describe('AuthService', () => {
   let service: RosterService;
@@ -15,10 +16,10 @@ describe('AuthService', () => {
         id: 1,
         ownerId: 1,
         players: [],
-        leagueName: 'Karen',
         leagueSize: 4,
         teamName: 'SF',
-        draftPosition: 1
+        draftPosition: 1,
+        pickPreference: "RB",
       }
     }),
     findOneBy: jest.fn((id) => {
@@ -82,11 +83,11 @@ describe('AuthService', () => {
       const players = [];
       const ownerId = 1;
       const dto = {
-        leagueName: 'Karen',
-        leagueSize: 4,
         teamName: 'SF',
-        draftPosition: 1
-      }
+        leagueSize: 4,
+        draftPosition: 1,
+        pickPreference: "RB"
+      } as CreateRosterRequest;
 
       const expected = {
         id: 1,
