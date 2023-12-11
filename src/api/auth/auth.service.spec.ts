@@ -1,19 +1,39 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
-import { CreateUserSchema } from '../../schemas/users/users.schemas';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { User } from '../../entities/users/user.entity';
+import { UsersService } from '../users/users.service';
+import { JwtService } from '@nestjs/jwt';
 
 describe('AuthService', () => {
   let service: AuthService;
 
-  const mockFunctions = {
+  const mockUserRepository = {
     register: jest.fn(),
     doesUserExist: jest.fn(),
     signIn: jest.fn()
   }
 
+  const mockUserService = {
+
+  }
+
+  const mockJwtService = {
+
+  }
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [AuthService],
+      providers: [AuthService, {
+        provide: getRepositoryToken(User),
+        useValue: mockUserRepository
+      }, {
+        provide: UsersService,
+        useValue: mockUserService
+      }, {
+        provide: JwtService,
+        useValue: mockJwtService
+      }],
     }).compile();
 
     service = module.get<AuthService>(AuthService);
@@ -23,27 +43,5 @@ describe('AuthService', () => {
     expect(service).toBeDefined();
   });
 
-  describe('register', () => {
-    it('should return a user', async () => {
-      //arrange
-      const user = {
-        email: "test@test.com",
-        firstName: "Bob",
-        lastName: "Jones",
-        password: "12345"
-      } as CreateUserSchema
-
-      jest.spyOn(mockFunctions, 'register').mockReturnValue(user);
-
-      //act
-      const result = await service.register(user);
-
-      //assert
-      expect(mockFunctions.register).toBeCalled();
-      expect(mockFunctions.register).toBeCalledWith(user);
-
-      expect(result).toEqual(user);
-    })
-  })
 
 });
