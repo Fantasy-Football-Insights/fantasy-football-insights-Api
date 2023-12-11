@@ -1,18 +1,166 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { RosterService } from './roster.service';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { Roster } from '../../entities/roster/roster.entity';
 
-describe('AuthController', () => {
-  let controller: RosterService;
+describe('AuthService', () => {
+  let service: RosterService;
+
+  const mockRosterRepository = {
+    find: jest.fn(() => {
+      return [{}];
+    }),
+    save: jest.fn(dto => {
+      return {
+        id: 1,
+        ownerId: 1,
+        players: [],
+        leagueName: 'Karen',
+        leagueSize: 4,
+        teamName: 'SF',
+        draftPosition: 1
+      }
+    }),
+    findOneBy: jest.fn((id) => {
+      if (id === 2){
+        return {};
+      } else {
+      return {
+        id: 1,
+        ownerId: 1,
+        players: [],
+        leagueName: 'Karen',
+        leagueSize: 4,
+        teamName: 'SF',
+        draftPosition: 1
+      };
+    }}),
+    query: jest.fn((id) => {
+      if (id === 2){
+        return [{}];
+      }
+      return [{
+        id: 1,
+        ownerId: 1,
+        players: [],
+        leagueName: 'Karen',
+        leagueSize: 4,
+        teamName: 'SF',
+        draftPosition: 1
+      }]
+    }),
+    delete: jest.fn(() => {
+      return 1;
+    }),
+  }
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [RosterService],
+      providers: [RosterService, {
+        provide: getRepositoryToken(Roster),
+        useValue: mockRosterRepository
+      }],
     }).compile();
 
-    controller = module.get<RosterService>(RosterService);
+    service = module.get<RosterService>(RosterService);
   });
 
   it('should be defined', () => {
-    expect(controller).toBeDefined();
+    expect(service).toBeDefined();
   });
+
+  describe('findAll', () => {
+    it('should return array of rosters', async () => {
+      const result = await service.findAll();
+
+      expect(result).toEqual([{}]);
+    })
+  })
+
+  describe('create', () => {
+    it('should return roster object', async () => {
+      const players = [];
+      const ownerId = 1;
+      const dto = {
+        leagueName: 'Karen',
+        leagueSize: 4,
+        teamName: 'SF',
+        draftPosition: 1
+      }
+
+      const expected = {
+        id: 1,
+        ownerId: 1,
+        players: players,
+        ...dto
+      }
+
+      const result = await service.create(players, ownerId, dto)
+
+      expect(result).toEqual(expected);
+    })
+  })
+
+  describe('findOne', () => {
+    it('should return a roster', async () => {
+      const dto = {id: 1,
+        ownerId: 1,
+        players: [],
+        leagueName: 'Karen',
+        leagueSize: 4,
+        teamName: 'SF',
+        draftPosition: 1}
+
+      const result = await service.findOne(1);
+
+      expect(result).toEqual(dto);
+    })
+
+    it('should return empty object', async () => {
+      await service.findOne(2);
+
+      expect(mockRosterRepository.findOneBy(2)).toEqual({});
+    })
+  })
+
+  describe('findMyRosters', () => {
+    it('should return array of rosters', async () => {
+
+      const dto = {
+        id: 1,
+        ownerId: 1,
+        players: [],
+        leagueName: 'Karen',
+        leagueSize: 4,
+        teamName: 'SF',
+        draftPosition: 1
+      };
+
+      await service.findMyRosters(1);
+
+      expect(mockRosterRepository.query(1)).toEqual([dto]);
+    })
+
+    it('should return empty object', async () => {
+      await service.findMyRosters(2);
+
+      expect(mockRosterRepository.query(2)).toEqual([{}])
+    })
+  })
+
+  describe('remove', () => {
+    it('should call delete', async () => {
+      await service.remove(1);
+
+      expect(mockRosterRepository.delete()).toEqual(1);
+    })
+
+    it('should not call delete', async () => {
+
+      await service.remove(2);
+
+      expect(mockRosterRepository.findOneBy(2)).toEqual({});
+    })
+  })
+
 });
