@@ -1,6 +1,6 @@
 import { Controller, Delete, Get, Param, Request } from "@nestjs/common";
 import { ApiOAuth2, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
-import { UserProfileSchema } from "src/schemas/users/users.schemas";
+import { UserProfileSchema } from "../../schemas/users/users.schemas";
 import { UsersService } from "./users.service";
 
 @ApiOAuth2([], "Authentication")
@@ -77,7 +77,7 @@ export class UsersController {
     status: 401,
     description: "Access Forbidden",
   })
-  remove(@Request() req): Promise<void> {
+  del(@Request() req): Promise<void> {
     return this.usersService.remove(req.user.sub);
   }
 }

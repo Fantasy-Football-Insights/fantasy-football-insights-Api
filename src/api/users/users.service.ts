@@ -14,14 +14,15 @@ export class UsersService {
     return await this.usersRepository.find();
   }
 
-  async findOne(email: string): Promise<User> {
-    return await this.usersRepository
-      .createQueryBuilder("user")
-      .select(["user.email", "user.id"])
-      .addSelect("user.password")
-      .where("user.email = :email", { email })
-      .getOne();
-  }
+  // Not used anywhere
+  // async findOne(email: string): Promise<User> {
+  //   return await this.usersRepository
+  //     .createQueryBuilder("user")
+  //     .select(["user.email", "user.id"])
+  //     .addSelect("user.password")
+  //     .where("user.email = :email", { email })
+  //     .getOne();
+  // }
 
   async findById(id: number): Promise<User> {
     const user = await this.usersRepository.findOneBy({ id: id });

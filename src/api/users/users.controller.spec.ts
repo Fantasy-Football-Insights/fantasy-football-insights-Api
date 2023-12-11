@@ -1,94 +1,121 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { CreateUserSchema } from "../../schemas/users/create-user.schema";
+import { CreateUserSchema } from "../../schemas/users/users.schemas"
 import { UsersController } from "./users.controller";
 import { UsersService } from "./users.service";
+import { Controller, NotFoundException } from "@nestjs/common";
+import { mock } from "node:test";
 
-const createUserDto: CreateUserSchema = {
-  firstName: "firstName #1",
-  lastName: "lastName #1",
-};
+const mockUsersService = {
+  findById: jest.fn(id => {
+    if (id === 1) {
+      return {
+        id: 1,
+        email: "user@example.com",
+        password: "12345"
+      }
+    } else {
+      throw new NotFoundException();
+    }
+  }),
+  findAll: jest.fn(() => {
+    return [{
+      id: 1,
+      email: "user@example.com",
+      firstName: "Billy",
+      lastName: "Joe"
+    }]
+  }),
+  remove: jest.fn(),
+}
 
 describe("UsersController", () => {
-  let usersController: UsersController;
-  let usersService: UsersService;
+  let controller: UsersController;
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
       controllers: [UsersController],
       providers: [
-        UsersService,
         {
           provide: UsersService,
-          useValue: {
-            create: jest
-              .fn()
-              .mockImplementation((user: CreateUserSchema) =>
-                Promise.resolve({ id: "1", ...user })
-              ),
-            findAll: jest.fn().mockResolvedValue([
-              {
-                firstName: "firstName #1",
-                lastName: "lastName #1",
-              },
-              {
-                firstName: "firstName #2",
-                lastName: "lastName #2",
-              },
-            ]),
-            findOne: jest.fn().mockImplementation((id: string) =>
-              Promise.resolve({
-                firstName: "firstName #1",
-                lastName: "lastName #1",
-                id,
-              })
-            ),
-            remove: jest.fn(),
-          },
+          useValue: mockUsersService
         },
       ],
     }).compile();
 
-    usersController = app.get<UsersController>(UsersController);
-    usersService = app.get<UsersService>(UsersService);
+    controller = app.get<UsersController>(UsersController);
   });
 
   it("should be defined", () => {
-    expect(usersController).toBeDefined();
+    expect(controller).toBeDefined();
   });
 
-  describe("create()", () => {
-    it("should create a user", () => {
-      usersController.create(createUserDto);
-      expect(usersController.create(createUserDto)).resolves.toEqual({
-        id: "1",
-        ...createUserDto,
-      });
-      expect(usersService.create).toHaveBeenCalledWith(createUserDto);
-    });
-  });
+  describe('getProfile', () => {
+    it('should return user', async () => {
+      const mockRequest = {
+        user: {
+          sub: 1
+        }
+      }
 
-  describe("findAll()", () => {
-    it("should find all users ", () => {
-      usersController.findAll();
-      expect(usersService.findAll).toHaveBeenCalled();
-    });
-  });
+      const result = await controller.getProfile(mockRequest);
 
-  describe("findOne()", () => {
-    it("should find a user", () => {
-      expect(usersController.findOne(1)).resolves.toEqual({
-        firstName: "firstName #1",
-        lastName: "lastName #1",
+      expect(result).toEqual({
         id: 1,
-      });
-      expect(usersService.findOne).toHaveBeenCalled();
-    });
-  });
+        email: "user@example.com",
+        password: "12345",
+      })
+    })
 
-  describe("remove()", () => {
-    it("should remove the user", () => {
-      usersController.remove("2");
-      expect(usersService.remove).toHaveBeenCalled();
-    });
-  });
+    it('should return not found exception', async () => {
+      const mockRequest = {
+        user: {
+          sub: 2
+        }
+      }
+
+      try {
+        await controller.getProfile(mockRequest)
+      } catch (e) {
+        expect(e.message).toEqual('Not Found')
+      }
+    })
+  })
+
+  describe('findAll', () => {
+    it('should return array of users', async () => {
+      const result = await controller.findAll();
+
+      expect(result).toEqual([{
+        id: 1,
+        email: "user@example.com",
+        firstName: "Billy",
+        lastName: "Joe"
+      }])
+    })
+  })
+
+  describe('findOne', () => {
+    it('should return user', async () => {
+
+
+      const result = await controller.findOne(1);
+
+      expect(result).toEqual({
+        id: 1,
+        email: "user@example.com",
+        password: "12345",
+      })
+    })
+
+    it('should return not found exception', async () => {
+
+      try {
+        await controller.findOne(2)
+      } catch (e) {
+        expect(e.message).toEqual('Not Found')
+      }
+    })
+  })
+
+
 });
