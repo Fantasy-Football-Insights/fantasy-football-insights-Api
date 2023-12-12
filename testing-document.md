@@ -25,7 +25,7 @@ The purpose of this document is to review our testing methods and the results th
 
 ## 2. Front End Testing
 ### 2.1 Expo Go
-Our main method for testing our fron end application was to use an emulator and an application called Expo Go. For those who don't know, Expo Go is a toolchain based on React Native that provides many tools for the provess of developing and testing Native React applications and provides the user with the user interface and service components typically found in third-party Native React Native components. 
+Our main method for testing our front end application was to use an emulator and an application called Expo Go. For those who don't know, Expo Go is a toolchain based on React Native that provides many tools for the provess of developing and testing Native React applications and provides the user with the user interface and service components typically found in third-party Native React Native components. 
 
 When running the front end, it will produce a scannable QR code in the terminal that you may use to see how the app would look on your phone. However, for our purposes, we were able to use an emulator on our laptops for both Android and Apple devices (although only those with a MacBook can access this) to avoid using our own device. This allowed for quick testing and reloading of our application.
 
