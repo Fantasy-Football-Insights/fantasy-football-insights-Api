@@ -67,7 +67,6 @@ export async function draftFantasyTeams(
 
   const players = await getPlayers();
 
-  // Sort players by their season average projection, descending
   players.sort((a, b) => b.sznAvgProj - a.sznAvgProj);
 
   for (let round = 0; round < NUM_ROUNDS; round++) {
@@ -84,7 +83,6 @@ export async function draftFantasyTeams(
         return preferredPositions[PICK_PREFERENCE] === player.mainPos;
       });
 
-      // If no preferred player is available, select the next best available player for the preffered position
       if (playerIndex === -1) {
         playerIndex = players.findIndex(
           (player) =>
@@ -93,7 +91,6 @@ export async function draftFantasyTeams(
         );
       }
 
-      // If no preferred preferences, just draft the next best player.
       if (playerIndex === -1) {
         playerIndex = players.findIndex((player) => !player.drafted);
       }
